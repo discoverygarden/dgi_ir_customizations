@@ -1,0 +1,216 @@
+---
+dgi_header.deposit:
+  title: Deposit
+  description: "Deposit research output items"
+  menu_name: dgi-header
+  url: 'internal:/node/add/research_output'
+  weight: 0
+ir_links.whydgi:
+  title: 'Why DG Islandora'
+  description: "Visit DGI's home page."
+  menu_name: ir-links
+  url: 'https://www.discoverygarden.ca/'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+updates.services:
+  title: Services
+  description: "View our services"
+  menu_name: updates
+  url: 'https://www.discoverygarden.ca/services'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+community.our_community:
+  title: "Our Community"
+  description: "Our Community"
+  menu_name: community
+  url: 'https://www.discoverygarden.ca/islandora-8'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+support.help_and_learning:
+  title: "Help & Learning"
+  description: "View our website for help and learning options"
+  menu_name: support
+  url: 'https://www.discoverygarden.ca/'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+university.about_us:
+  title: "About Us"
+  description: "View our website to learn more about us"
+  menu_name: university
+  url: 'https://www.discoverygarden.ca/about'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+university.contact_us:
+  title: "Contact Us"
+  description: "View our website to contact us"
+  menu_name: university
+  url: 'https://www.discoverygarden.ca/contact'
+  weight: 1
+  options:
+    attributes:
+      target: _blank
+footer_social_media.twitter:
+  title: "Twitter"
+  description: "Twitter"
+  menu_name: footer-social-media
+  url: 'https://twitter.com/DiscGarden'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+footer_social_media.facebook:
+  title: "Facebook"
+  description: "Facebook"
+  menu_name: footer-social-media
+  url: 'https://www.facebook.com/pages/Discovery-Garden-Inc/143267956260358'
+  weight: 1
+  options:
+    attributes:
+      target: _blank
+copyright.cpright:
+  title: "2020 Copyright"
+  description: "2020 Copyright"
+  menu_name: copyright
+  route_name: '<nolink>'
+  weight: 0
+copyright.legal:
+  title: "Legal"
+  description: "Legal"
+  menu_name: copyright
+  url: 'https://www.discoverygarden.ca/privacy-policy'
+  weight: 1
+  options:
+    attributes:
+      target: _blank
+copyright.privacy:
+  title: "Privacy"
+  description: "Privacy"
+  menu_name: copyright
+  url: 'https://www.discoverygarden.ca/privacy-policy'
+  weight: 2
+  options:
+    attributes:
+      target: _blank
+usefullinks.services:
+  title: "DGI Services"
+  description: "DGI Services"
+  menu_name: useful-links
+  url: 'https://www.discoverygarden.ca/services'
+  weight: 0
+  options:
+    attributes:
+      target: _blank
+usefullinks.visit:
+  title: "Visit discoverygarden.ca"
+  description: "Visit discoverygarden.ca"
+  menu_name: useful-links
+  url: 'https://www.discoverygarden.ca/'
+  weight: 1
+  options:
+    attributes:
+      target: _blank
+browsebytype.all:
+  title: "All"
+  description: "All"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+  weight: 0
+browsebytype.software:
+  title: "Software"
+  description: "Software"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: type_taxonomy_term_label_list_:Software
+  weight: 1
+browsebytype.dataset:
+  title: "Dataset"
+  description: "Dataset"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: type_taxonomy_term_label_list_:Dataset
+  weight: 2
+browsebytype.audio:
+  title: "Audio"
+  description: "Audio"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: reverse_reference_media_using_media_of_media_type:audio
+  weight: 3
+browsebytype.text:
+  title: "Text"
+  description: "Text"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: type_taxonomy_term_label_list_:Book
+      f[1]: type_taxonomy_term_label_list_:Book Chapter
+      f[2]: type_taxonomy_term_label_list_:Conference paper
+      f[3]: type_taxonomy_term_label_list_:Journal article
+      f[4]: type_taxonomy_term_label_list_:Legal case
+      f[5]: type_taxonomy_term_label_list_:Newspaper or Magazine article
+      f[6]: type_taxonomy_term_label_list_:Report
+      f[7]: type_taxonomy_term_label_list_:Thesis
+      f[8]: type_taxonomy_term_label_list_:Translation
+  weight: 4
+browsebytype.video:
+  title: "Video"
+  description: "Video"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: reverse_reference_media_using_media_of_media_type:video
+  weight: 5
+browsebytype.image:
+  title: "Image"
+  description: "Image"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: media_use_type:researchoutputimage
+  weight: 6
+browsebytype.other:
+  title: "Other"
+  description: "Other"
+  menu_name: browse-by-type
+  route_name: view.solr_search_content.page_2
+  options:
+    query:
+      search_api_fulltext: ''
+      f[0]: type_taxonomy_term_label_list_:Audiovisual material
+      f[1]: type_taxonomy_term_label_list_:Creative work curated exhibition or event
+      f[2]: type_taxonomy_term_label_list_:Creative work live performance
+      f[3]: type_taxonomy_term_label_list_:Creative work original work
+      f[4]: type_taxonomy_term_label_list_:Creative work recorded or rendered work
+      f[5]: type_taxonomy_term_label_list_:Invention
+      f[6]: type_taxonomy_term_label_list_:Map
+      f[7]: type_taxonomy_term_label_list_:Other output not elsewhere defined
+      f[8]: type_taxonomy_term_label_list_:Reference work
+  weight: 7

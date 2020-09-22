@@ -1,0 +1,7 @@
+name: 'DGI IR Customizations'
+description: "IR-specific functionality"
+type: module
+package: DGI Helpers
+core: 8.x
+dependencies:
+  - islandora_institutional_repository

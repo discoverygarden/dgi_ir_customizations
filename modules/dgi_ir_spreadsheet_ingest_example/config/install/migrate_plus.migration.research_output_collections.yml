@@ -1,0 +1,67 @@
+id: research_output_collections
+label: Create collections from rows in the csv.
+migration_group: research_output
+source:
+  columns:
+    - 'id'
+    - 'title'
+    - 'node_type'
+    - 'member_of'
+    - 'abstract'
+  constants:
+    collection_uri: 'http://purl.org/dc/dcmitype/Collection'
+process:
+  # Skip if not tagged as a collection.
+  skip_if_not_collection:
+    plugin: skip_on_value
+    method: row
+    source: node_type
+    value: collection
+    not_equals: true
+
+  # Metadata.
+  title: title
+  field_description: abstract
+
+  # Technical model.
+  field_model:
+    - plugin: entity_lookup
+      source: constants/collection_uri
+      bundle_key: vid
+      bundle: islandora_models
+      value_key: field_external_uri
+      entity_type: taxonomy_term
+      # XXX: migrate_plus's case comparison makes assumptions about the entity's
+      # "main" property... we want "uri", but it assumes "value".
+      ignore_case: true
+  _field_member_of_lookup:
+    - plugin: skip_on_empty
+      method: process
+      source: member_of
+    - plugin: migration_lookup
+      migration: research_output_collections
+      no_stub: true
+  _field_member_of_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: member_of
+    - plugin: entity_lookup
+      bundle_key: type
+      bundle: islandora_object
+      value_key: title
+      entity_type: node
+  field_member_of:
+    - plugin: null_coalesce
+      source:
+        - '@_field_member_of_lookup'
+        - '@_field_member_of_existing'
+    - plugin: skip_on_empty
+      method: process
+
+destination:
+  plugin: entity:node
+  default_bundle: islandora_object
+dependencies:
+  enforced:
+    module:
+      - dgi_ir_spreadsheet_ingest_example

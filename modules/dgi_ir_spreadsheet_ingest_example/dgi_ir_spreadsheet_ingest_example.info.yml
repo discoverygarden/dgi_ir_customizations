@@ -1,0 +1,8 @@
+name: DGI IR Spreadsheet Ingest Example
+description: Provides a base CSV migration template and script for creating Research Output nodes, based on the out-of-the-box Research Output implementation.
+type: module
+package: DGI
+core: 8.x
+dependencies:
+  - dgi_ir
+  - islandora_spreadsheet_ingest

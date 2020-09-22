@@ -1,0 +1,455 @@
+id: research_output_nodes
+label: Create Research Output nodes from CSV rows.
+migration_group: research_output
+source:
+  columns:
+    # Core fields.
+    - 'id'
+    - 'title'
+    - 'member_of'
+    - 'node_type'
+    # Metadata fields.
+    - 'abstract'
+    - 'access_status'
+    - 'supervisor'
+    - 'affiliated_organizations'
+    - 'alternative_title'
+    - 'ark'
+    - 'author'
+    - 'bibliographic_citation'
+    - 'commissioned_by'
+    - 'contributor_existing'
+    - 'contributor_new'
+    - 'creator_existing'
+    - 'creator_new'
+    - 'date_accepted'
+    - 'date_copyrighted'
+    - 'date_created'
+    - 'date_first_performed'
+    - 'date_last_performed'
+    - 'date_published'
+    - 'date_submitted'
+    - 'degree_level'
+    - 'doi'
+    - 'duration'
+    - 'end_page'
+    - 'exhibit_host'
+    - 'extent'
+    - 'external_references'
+    - 'funder'
+    - 'grant_id'
+    - 'handle'
+    - 'administrative_notes'
+    - 'isbn'
+    - 'ismn'
+    - 'issn'
+    - 'issue'
+    - 'tags'
+    - 'license'
+    - 'link_to_article'
+    - 'location'
+    - 'media_types'
+    - 'number_of_pages'
+    - 'other_roles'
+    - 'performed_by'
+    - 'place_of_publication'
+    - 'provenance'
+    - 'publisher'
+    - 'related_item'
+    - 'release_date'
+    - 'research_output_type'
+    - 'rights_holder'
+    - 'rights_statement'
+    - 'source_publication'
+    - 'coverage'
+    - 'sponsorship_information'
+    - 'start_page'
+    - 'subject'
+    - 'table_of_contents'
+    - 'temporal_coverage'
+    - 'type'
+    - 'usage_notes'
+    - 'version_change_note'
+    - 'version_id'
+    - 'volume'
+
+process:
+  # Deny processing for other kinds of bundles.
+  skip_if_not_research_output:
+    - plugin: default_value
+      default_value: research_output
+    - plugin: skip_on_value
+      value: research_output
+      not_equals: true
+      method: row
+
+  # Deny processing if required fields are missing.
+  title:
+    - plugin: skip_on_empty
+      method: row
+      source: title
+      message: "Missing the 'title' value for this row"
+    - plugin: get
+      source: title
+  field_abstract:
+    - plugin: skip_on_empty
+      method: row
+      source: abstract
+      message: "Missing the 'abstract' value for this row"
+    - plugin: get
+      source: abstract
+  field_access_status:
+    - plugin: skip_on_empty
+      method: row
+      source: access_status
+      message: "Missing the 'access_status' value for ths row"
+    - plugin: entity_lookup
+      source: access_status
+      bundle_key: vid
+      bundle: taxonomy_access_status
+      value_key: name
+      entity_type: taxonomy_term
+  field_research_output_type:
+    - plugin: skip_on_empty
+      method: row
+      source: research_output_type
+      message: "Missing the 'research_output_type' value for this row"
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: research_output_type
+      value_key: name
+      entity_type: taxonomy_term
+
+  field_supervisor:
+    - plugin: skip_on_empty
+      method: process
+      source: supervisor
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: scholars
+      value_key: name
+      entity_type: taxonomy_term
+  field_affiliated_organizational_:
+    - plugin: skip_on_empty
+      method: process
+      source: affiliated_organizations
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: organizational_units
+      value_key: name
+      entity_type: taxonomy_term
+  field_alternative_title: alternative_title
+  field_ark: ark
+  field_author:
+    - plugin: skip_on_empty
+      method: process
+      source: author
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: scholars
+      value_key: name
+      entity_type: taxonomy_term
+  field_bibliographic_citation: bibliographic_citation
+  field_commissioned_by: commissioned_by
+  _field_contributor_scholar_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: contributor_existing
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: scholars
+      value_key: name
+      entity_type: taxonomy_term
+  _field_contributor_organizational_unit_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: contributor_existing
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: organizational_units
+      value_key: name
+      entity_type: taxonomy_term
+  _field_contributor_create:
+    - plugin: skip_on_empty
+      method: process
+      source: contributor_new
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: organizational_units
+      value_key: name
+      entity_type: taxonomy_term
+  field_contributor:
+    - plugin: flatten
+      source:
+        - '@_field_contributor_scholar_existing'
+        - '@_field_contributor_organizational_unit_existing'
+        - '@_field_contributor_create'
+    - plugin: skip_on_empty
+      method: process
+  _field_creator_scholar_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: creator_existing
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: scholars
+      value_key: name
+      entity_type: taxonomy_term
+  _field_creator_organizational_unit_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: creator_existing
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: organizational_units
+      value_key: name
+      entity_type: taxonomy_term
+  _field_creator_create:
+    - plugin: skip_on_empty
+      method: process
+      source: creator_new
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: organizational_units
+      value_key: name
+      entity_type: taxonomy_term
+  field_creator:
+    - plugin: flatten
+      source:
+        - '@_field_creator_scholar_existing'
+        - '@_field_creator_organizational_unit_existing'
+        - '@_field_creator_create'
+    - plugin: skip_on_empty
+      method: process
+  field_date_accepted: date_accepted
+  field_date_copyrighted: date_copyrighted
+  field_date_created: date_created
+  field_date_first_performed:
+    - plugin: skip_on_empty
+      method: process
+      source: date_first_performed
+    - plugin: callback
+      callable: strtotime
+    - plugin: format_date
+      from_format: U
+      to_format: Y-m-d
+  field_date_last_performed:
+    - plugin: skip_on_empty
+      method: process
+      source: date_last_performed
+    - plugin: callback
+      callable: strtotime
+    - plugin: format_date
+      from_format: U
+      to_format: Y-m-d
+  field_date_published: date_published
+  field_date_submitted: date_submitted
+  field_degree_level:
+    - plugin: skip_on_empty
+      method: process
+      source: degree_level
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: degree_levels
+      value_key: name
+      entity_type: taxonomy_term
+  # Force the deposit agreement to be in place.
+  field_deposit_agreement:
+    - plugin: default_value
+      default_value: true
+  field_disclaimer: disclaimer
+  field_doi: doi
+  field_duration: duration
+  field_end_page: end_page
+  field_exhibit_host: exhibit_host
+  field_extent: extent
+  _external_references:
+    - plugin: skip_on_empty
+      method: process
+      source: external_references
+    - plugin: subdelimited_explode
+      delimiter: '; '
+      subdelimiter: '|'
+      keys:
+        - uri
+        - title
+  field_external_references: '@_external_references'
+  field_funder: funder
+  field_grant_id: grant_id
+  field_handle: handle
+  field_internal_notes: internal_notes
+  field_isbn: isbn
+  field_ismn: ismn
+  field_issn: issn
+  field_issue: issue
+  field_tags:
+    - plugin: skip_on_empty
+      method: process
+      source: tags
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: tags
+      value_key: name
+      entity_type: taxonomy_term
+  field_license:
+    - plugin: skip_on_empty
+      method: process
+      source: license
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: creative_commons_licenses_4_0
+      value_key: name
+      entity_type: taxonomy_term
+  'field_link_to_article/uri': link_to_article
+  field_location:
+    - plugin: skip_on_empty
+      method: process
+      source: location
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: geo_location
+      value_key: name
+      entity_type: taxonomy_term
+  field_media_types: media_types
+  _field_member_of_lookup:
+    - plugin: skip_on_empty
+      method: process
+      source: member_of
+    - plugin: migration_lookup
+      migration: research_output_collections
+      no_stub: true
+  _field_member_of_existing:
+    - plugin: skip_on_empty
+      method: process
+      source: member_of
+    - plugin: entity_lookup
+      bundle_key: type
+      bundle: islandora_object
+      value_key: title
+      entity_type: node
+  field_member_of:
+    - plugin: null_coalesce
+      source:
+        - '@_field_member_of_lookup'
+        - '@_field_member_of_existing'
+    - plugin: skip_on_empty
+      method: process
+  field_number_of_pages: number_of_pages
+  _other_roles:
+    - plugin: skip_on_empty
+      method: process
+      source: other_roles
+    - plugin: subdelimited_explode
+      delimiter: '; '
+      subdelimiter: '||'
+      keys:
+        - target_id
+        - rel_type
+  field_other_roles: '@_other_roles'
+  field_performed_by: performed_by
+  field_place_of_publication:
+    - plugin: skip_on_empty
+      method: process
+      source: place_of_publication
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: geo_location
+      value_key: name
+      entity_type: taxonomy_term
+  field_provenance: provenance
+  field_publisher: publisher
+  _related_item:
+    - plugin: skip_on_empty
+      method: process
+      source: related_item
+    - plugin: subdelimited_explode
+      delimiter: '||'
+      subdelimiter: '|'
+      keys:
+        - target_id
+        - rel_type
+  field_related_item: '@_related_item'
+  field_release_date: release_date
+  field_rights_holder: rights_holder
+  field_rights_statement:
+    - plugin: skip_on_empty
+      method: process
+      source: rights_statement
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: rights_statements
+      value_key: name
+      entity_type: taxonomy_term
+  field_source_publication: source_publication
+  field_spatial_coverage:
+    - plugin: skip_on_empty
+      method: process
+      source: spatial_coverage
+    - plugin: explode
+      delimiter: '; '
+  field_sponsorship_information: sponsorship_information
+  field_start_p: start_page
+  field_subject:
+    - plugin: skip_on_empty
+      method: process
+      source: subject
+    - plugin: explode
+      delimiter: '; '
+    - plugin: entity_generate
+      bundle_key: vid
+      bundle: subject
+      value_key: name
+      entity_type: taxonomy_term
+  field_table_of_contents: table_of_contents
+  field_temporal_coverage:
+    - plugin: skip_on_empty
+      method: process
+      source: temporal_coverage
+    - plugin: explode
+      delimiter: '; '
+  field_type:
+    - plugin: skip_on_empty
+      method: process
+      source: type
+    - plugin: entity_lookup
+      bundle_key: vid
+      bundle: dcmi_types
+      value_key: name
+      entity_type: taxonomy_term
+  field_usage_notes: usage_notes
+  field_version_change_note: version_change_note
+  field_version_id: version_id
+  field_volume: volume
+
+destination:
+  plugin: entity:node
+  default_bundle: research_output
+migration_dependencies:
+  required:
+    - research_output_collections
+dependencies:
+  enforced:
+    module:
+      - dgi_ir_spreadsheet_ingest_example

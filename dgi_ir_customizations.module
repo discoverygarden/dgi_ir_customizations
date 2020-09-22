@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations.
+ */
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ */
+function dgi_ir_customizations_menu_links_discovered_alter(&$links) {
+  if (isset($links['dgi_header.explore'])) {
+    $links['dgi_header.explore']['route_name'] = 'view.solr_search_content.page_2';
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ *
+ * @XXX: Unfortunate workaround due to the fact that the GenericFileFormatter
+ * plugin doesn't work with images. There doesn't seem to be a reason why this
+ * is the case beyond, perhaps, oversight, since enabling it doesn't have any
+ * repercussions. The open issue for this doesn't seem to have gotten a lot of
+ * love, but checking for the field type regardless.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/2867097
+ */
+function dgi_ir_customizations_field_formatter_info_alter(array &$info) {
+  if (isset($info['file_default']) && !in_array('image', $info['file_default']['field_types'])) {
+    $info['file_default']['field_types'][] = 'image';
+  }
+}
