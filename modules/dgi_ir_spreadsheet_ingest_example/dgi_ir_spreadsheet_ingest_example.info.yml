@@ -4,5 +4,5 @@ type: module
 package: DGI
 core: 8.x
 dependencies:
-  - dgi_ir
+  - islandora_institutional_repository
   - islandora_spreadsheet_ingest
