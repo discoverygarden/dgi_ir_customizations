@@ -6,7 +6,6 @@ drupal:
     gpl-compatible: true
   dependencies:
     - core/jquery
-    - core/jquery
     - core/drupal
     - core/drupalSettings
     - core/jquery.once
