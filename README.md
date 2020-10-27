@@ -8,7 +8,8 @@ implementation.
 **N.B.** Functionality here is branched from the original `dgi_ir` project;
 pieces of that module migrated to here were considered integral to DGI's
 Institutional Repository implementation rather than integral to Research Output
-itself. As such, this module _must be left public_.
+itself. As such, this module is being left public as a transparent, easy-to-find
+reference to code formerly packaged with `dgi_ir`.
 
 ## Requirements
 
