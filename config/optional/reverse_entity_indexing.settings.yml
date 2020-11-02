@@ -1,0 +1,6 @@
+reindex_targets:
+  -
+    reference_field: field_media_of
+    target_type: node
+    target_field: nid
+    target_indexes: null

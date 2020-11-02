@@ -1,0 +1,9 @@
+{
+  "name": "discoverygarden/dgi_ir_customizations",
+  "description": "DGI's IR customizations",
+  "type": "drupal-module",
+  "require": {
+    "discoverygarden/dgi_ir": "*"
+  },
+  "license": "GPL-3.0-only"
+}
