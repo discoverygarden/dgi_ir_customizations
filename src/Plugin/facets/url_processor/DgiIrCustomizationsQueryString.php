@@ -45,7 +45,6 @@ class DgiIrCustomizationsQueryString extends QueryString {
     $facet_source_path = $facet->getFacetSource()->getPath();
     $request = $this->getRequestByFacetSourcePath($facet_source_path);
     $requestUrl = $this->getUrlForRequest($facet_source_path, $request);
-    $routeParameters = $this->getUrlRouteParameters();
 
     $original_filter_params = [];
     foreach ($this->getActiveFilters() as $facet_id => $values) {
@@ -167,6 +166,7 @@ class DgiIrCustomizationsQueryString extends QueryString {
         if (!isset($new_url_params['search_api_fulltext'])) {
           $new_url_params['search_api_fulltext'] = '';
         }
+
 
         // Set the new url parameters.
         $url->setOption('query', $new_url_params);

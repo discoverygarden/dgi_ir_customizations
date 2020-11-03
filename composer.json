@@ -3,7 +3,8 @@
   "description": "DGI's IR customizations",
   "type": "drupal-module",
   "require": {
-    "discoverygarden/islandora_institutional_repository": "*"
+    "discoverygarden/islandora_institutional_repository": "*",
+    "drupal/facets": "~1.6"
   },
   "license": "GPL-3.0-only"
 }
