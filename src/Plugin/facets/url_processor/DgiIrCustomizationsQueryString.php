@@ -144,9 +144,6 @@ class DgiIrCustomizationsQueryString extends QueryString {
 
       asort($filter_params, \SORT_NATURAL);
       $result_get_params->set($this->filterKey, array_values($filter_params));
-      if (!empty($routeParameters)) {
-        $url->setRouteParameters($routeParameters);
-      }
 
       if ($result_get_params->all() !== [$this->filterKey => []]) {
         $new_url_params = $result_get_params->all();
