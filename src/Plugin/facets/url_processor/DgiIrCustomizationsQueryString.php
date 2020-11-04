@@ -164,7 +164,6 @@ class DgiIrCustomizationsQueryString extends QueryString {
           $new_url_params['search_api_fulltext'] = '';
         }
 
-
         // Set the new url parameters.
         $url->setOption('query', $new_url_params);
       }
